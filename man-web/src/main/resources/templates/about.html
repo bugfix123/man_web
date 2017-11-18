@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head></head>
+<body>
+<shiro:principal/>-显示当前登录用户名<br/><br/>
+
+<span shiro:authenticated="true" >
+      <span>欢迎您：<shiro:principal/></span>
+</span>
+</body>
+</html>

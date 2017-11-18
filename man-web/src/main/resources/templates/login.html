@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <title>全球最大的同性交友社区--GitHub</title>
+		<meta name="keywords" content="西门飘雪" />
+		<meta name="description" content="志哥的私房菜" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+		<base th:href="@{/}"/>
+        <!-- CSS -->
+        <link rel="stylesheet" href="3rd/login/css/reset.css">
+        <link rel="stylesheet" href="3rd/login/css/supersized.css">
+        <link rel="stylesheet" href="3rd/login/css/style.css">
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script type="text/javascript" th:inline="javascript">
+        	var basePath =  /*[[${#httpServletRequest.getContextPath()}]]*/ 
+        	//alert(basePath);
+        </script>
+    </head>
+
+    <body>
+
+        <div class="page-container">
+            <h1>系统登录</h1>
+            <form action="" method="post">
+                <input type="text" name="userName" class="username" placeholder="用户名" alt="用户名">
+                <input type="password" name="password" class="password" placeholder="密码" alt="密码">
+                 <div class="clearfix"></div><br>
+	             <div id="wrong" style="color:red;line-height: 0px;margin-bottom: 0px;" class="alert">
+	             	
+	             </div>
+                <button type="button" id="submitBtn">提交</button>
+                <div class="error"><span>+</span></div>
+            </form> 
+            <div class="connect">
+                <p>Or connect with:</p>
+                <p>
+                    <a class="facebook" href=""></a>
+                    <a class="twitter" href=""></a>
+                </p>
+            </div>
+        </div>
+		
+        <!-- Javascript -->
+        <script src="3rd/login/js/jquery-1.8.2.min.js"></script>
+        <script src="3rd/login/js/supersized.3.2.7.min.js"></script>
+        <script src="3rd/login/js/supersized-init.js"></script>
+         <script src="js/md5.js" type="text/javascript"></script>
+        <script src="3rd/login/js/login.js"></script>
+        
+
+    </body>
+
+</html>
+
+

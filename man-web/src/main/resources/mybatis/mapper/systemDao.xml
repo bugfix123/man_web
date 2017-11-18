@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.codefish.man.web.dao.ISystemDao">
+    <select id="getMenu" resultType="menuDTO">
+        SELECT id,name,code,url,pid,grade,css FROM permission where type='MENU' order by code;
+    </select>
+    <select id="queryUserDTO" resultType="userDTO">
+        SELECT
+				`user`.id,
+				`user`.userName,
+				`user`.password,
+				`user`.realName,
+				`user`.age,
+				`user`.sex,
+				`user`.address,
+				`user`.job,
+				`user`.description
+			FROM
+				`user`
+			WHERE
+				`user`.userName = #{param1}
+    </select>
+    <select id="queryRoleDTOListByUserId" resultType="roleDTO">
+        SELECT
+			role.id,
+			role.role_code,
+			role.role_name AS roleName
+			FROM
+			role
+			LEFT JOIN user_r_role AS ur ON role.id = ur.role_id
+			WHERE
+			ur.user_id = #{param1}
+    </select>
+    <select id="queryPermissionDTOListByUserIdOrRoleId" resultType="permissionDTO">
+       	SELECT
+			permission.id,
+			permission.`code`,
+			permission.`name`,
+			permission.grade,
+			permission.pid,
+			permission.type,
+			permission.url,
+			permission.css
+		FROM
+		permission
+		INNER JOIN role_r_per AS rp ON permission.id = rp.per_id
+		<if test="param1 != null and param1 !=''">
+			INNER JOIN user_r_role AS ur ON ur.role_id = rp.role_id
+		</if>
+		<where>
+			<choose>
+				<when test="param1 != null and param1 !=''">
+					ur.user_id = #{param1}
+				</when>
+				<when test="param2 != null and param2 !=''">
+					ur.user_id = #{param1}
+				</when>
+			</choose>
+		</where>
+		
+    </select>
+    <select id="queryUserDTOList" resultType="userDTO">
+			SELECT
+				`user`.id,
+				`user`.userName,
+				`user`.password,
+				`user`.realName,
+				`user`.age,
+				`user`.sex,
+				`user`.address,
+				`user`.job,
+				`user`.description
+			FROM
+				`user`
+	</select>
+    <select id="queryRoleDTOList" resultType="roleDTO">
+			SELECT
+			role.id,
+			role.role_code,
+			role.role_name AS roleName
+			FROM
+			role
+	</select>
+   
+    <select id="queryPermissionDTOList" resultType="permissionDTO">
+			SELECT
+			permission.id,
+			permission.`code`,
+			permission.`name`,
+			permission.grade,
+			permission.pid,
+			permission.type,
+			permission.url,
+			permission.css
+		FROM
+		permission
+	</select>
+    <insert id="insertUserDTO" parameterType="userDTO">
+			INSERT INTO `user` (`id`, `userName`, `password`, `realName`, `age`, `sex`, `address`, `job`, `description`) 
+			VALUES (#{id}, #{userName}, #{password}, #{realName}, #{age}, 0, #{address}, #{job}, #{description});
+
+	</insert>
+    <update id="updateUserDTO" parameterType="userDTO" >
+    		update user
+    		<trim prefix="set" suffixOverrides="," suffix="where userName=#{userName}">
+    			<if test="realName!=null and realName!=''">realName=#{realName},</if>
+    			<if test="password!=null and password!=''">password=#{password},</if>
+    			<if test="age!=null and age!=''">age=#{age},</if>
+    			<if test="sex!=null and sex!=''">sex=#{sex},</if>
+    			<if test="address!=null and address!=''">address=#{address},</if>
+    			<if test="job!=null and job!=''">job=#{job},</if>
+    			<if test="description!=null and description!=''">description=#{description},</if>
+    		</trim>
+	</update>  
+	<delete id="deleteUserDTO" parameterType="String">
+		delete from user where id=#{param1}
+	</delete>
+</mapper>

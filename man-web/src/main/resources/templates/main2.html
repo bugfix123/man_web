@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"></meta>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
+<title>零下一度 - 西门飘雪</title>
+
+<link href="css/jquery-accordion-menu.css" rel="stylesheet"
+	type="text/css" />
+<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
+<link rel="stylesheet" href="bootstrap-table/bootstrap-table.css">
+<link rel="stylesheet" href="css/main.css" type="text/css" >
+<link rel="stylesheet" href="admin/dist/css/AdminLTE.css">
+<link rel="stylesheet" href="admin/dist/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="sweetalert/sweetalert.css">
+
+<script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
+<script src="js/jquery-accordion-menu.js" type="text/javascript"></script>
+<script type="text/javascript"  src="bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+<script type="text/javascript"  src="bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript"  src="bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript"  src="sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript">
+	alert(111);
+</script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<!-- 顶部菜单（来自bootstrap官方Demon）==================================== -->
+		<header class="main-header">
+			<!-- Logo -->
+			<a href="main.html" class="logo"> <span class="logo-lg"><b>XX系统</b></span>
+			</a>
+			<!-- Header Navbar: style can be found in header.less -->
+			<nav class="navbar navbar-static-top">
+				<!-- Sidebar toggle button-->
+				<a href="#" class="sidebar-toggle" data-toggle="push-menu"
+					role="button"> <span class="sr-only">Toggle navigation</span>
+				</a>
+
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						<!-- Messages: style can be found in dropdown.less-->
+						<li class="dropdown messages-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"> <i
+								class="fa fa-envelope-o"></i> <span class="label label-success">4</span>
+						</a></li>
+
+						<!-- User Account: style can be found in dropdown.less -->
+						<li class="dropdown user user-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"> <img
+								src="admin/dist/img/user2-160x160.jpg" class="user-image"
+								alt="User Image"> <span class="hidden-xs">武松</span>
+						</a>
+							<ul class="dropdown-menu">
+								<!-- User image -->
+								<li class="user-header"><img
+									src="admin/dist/img/user2-160x160.jpg" class="img-circle"
+									alt="User Image">
+
+									<p>
+										武松 - 打虎英雄 <small>公元前...</small>
+									</p></li>
+								<!-- Menu Body -->
+								<li class="user-body">
+									<div class="row">
+										<div class="col-xs-4 text-center">
+											<a href="#">跟随者</a>
+										</div>
+										<div class="col-xs-4 text-center">
+											<a href="#">销售</a>
+										</div>
+										<div class="col-xs-4 text-center">
+											<a href="#">朋友</a>
+										</div>
+									</div> <!-- /.row -->
+								</li>
+								<!-- Menu Footer-->
+								<li class="user-footer">
+									<div class="pull-left">
+										<a href="#" class="btn btn-default btn-flat">简介</a>
+									</div>
+									<div class="pull-right">
+										<a href="#" class="btn btn-default btn-flat">退出</a>
+									</div>
+								</li>
+							</ul></li>
+
+					</ul>
+				</div>
+			</nav>
+		</header>
+
+		<aside class="main-sidebar">
+			<!-- sidebar: style can be found in sidebar.less -->
+			<section class="sidebar">
+				<div>
+					<div id="jquery-accordion-menu" class="jquery-accordion-menu red">
+						<div class="jquery-accordion-menu-header" id="form"></div>
+						<ul id="demo-list">
+							<li class="active"><a href="#"><i class="fa fa-home"></i>Home
+							</a></li>
+							<li><a href="#"><i class="fa fa-glass"></i>Events </a></li>
+							<li><a href="#"><i class="fa fa-file-image-o"></i>Gallery
+							</a><span class="jquery-accordion-menu-label"> 12 </span></li>
+							<li><a href="#"><i class="fa fa-cog"></i>Services </a>
+								<ul class="submenu">
+									<li><a href="#">Web Design </a></li>
+									<li><a href="#">Hosting </a></li>
+									<li><a href="#">Design </a>
+										<ul class="submenu">
+											<li><a href="#">Graphics </a></li>
+											<li><a href="#">Vectors </a></li>
+											<li><a href="#">Photoshop </a></li>
+											<li><a href="#">Fonts </a></li>
+										</ul></li>
+									<li><a href="#">Consulting </a></li>
+								</ul></li>
+							<li><a href="#" onclick="showRight('/sys/show')"><i class="fa fa-home"></i>系统管理 </a></li>
+							<li><a href="#"><i class="fa fa-suitcase"></i>Portfolio
+							</a>
+								<ul class="submenu">
+									<li><a href="#">Web Design </a></li>
+									<li><a href="#">Graphics </a><span
+										class="jquery-accordion-menu-label">10 </span></li>
+									<li><a href="#">Photoshop </a></li>
+									<li><a href="#">Programming </a></li>
+								</ul></li>
+							<li><a href="#"><i class="fa fa-user"></i>About </a></li>
+							<li><a href="#"><i class="fa fa-envelope"></i>Contact </a></li>
+
+						</ul>
+						<div class="jquery-accordion-menu-footer">Footer</div>
+					</div>
+
+				</div>
+			</section>
+		</aside>
+
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Dashboard <small>主面板</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+					<li class="active">Dashboard</li>
+				</ol>
+			</section>
+
+			<!-- Main content -->
+			<section class="content" id="mainContent">
+				<div class="row" >
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-aqua">
+							<div class="inner">
+								<h3>150</h3>
+
+								<p>New Orders</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-bag"></i>
+							</div>
+							<a href="#" class="small-box-footer">More info <i
+								class="fa fa-arrow-circle-right"></i></a>
+						</div>
+					</div>
+					<!-- ./col -->
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-green">
+							<div class="inner">
+								<h3>
+									53<sup style="font-size: 20px">%</sup>
+								</h3>
+
+								<p>Bounce Rate</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-stats-bars"></i>
+							</div>
+							<a href="#" class="small-box-footer">More info <i
+								class="fa fa-arrow-circle-right"></i></a>
+						</div>
+					</div>
+					<!-- ./col -->
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-yellow">
+							<div class="inner">
+								<h3>44</h3>
+
+								<p>User Registrations</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-person-add"></i>
+							</div>
+							<a href="#" class="small-box-footer">More info <i
+								class="fa fa-arrow-circle-right"></i></a>
+						</div>
+					</div>
+					<!-- ./col -->
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-red">
+							<div class="inner">
+								<h3>65</h3>
+
+								<p>Unique Visitors</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-pie-graph"></i>
+							</div>
+							<a href="#" class="small-box-footer">More info <i
+								class="fa fa-arrow-circle-right"></i></a>
+						</div>
+					</div>
+					<!-- ./col -->
+				</div>
+				<div>
+
+					<!-- LINE CHART -->
+					<div class="box box-info col-md-3">
+						<div class="box-header with-border">
+							<h3 class="box-title">Line Chart</h3>
+
+							<div class="box-tools pull-right">
+								<button type="button" class="btn btn-box-tool"
+									data-widget="collapse">
+									<i class="fa fa-minus"></i>
+								</button>
+								<button type="button" class="btn btn-box-tool"
+									data-widget="remove">
+									<i class="fa fa-times"></i>
+								</button>
+							</div>
+						</div>
+						<div class="box-body">
+							<div class="chart">
+								<canvas id="lineChart" style="height: 200px"></canvas>
+							</div>
+						</div>
+						<!-- /.box-body -->
+					</div>
+
+					<div class="box box-success col-md-6">
+						<div class="box-header with-border">
+							<h3 class="box-title">Bar Chart</h3>
+
+							<div class="box-tools pull-right">
+								<button type="button" class="btn btn-box-tool"
+									data-widget="collapse">
+									<i class="fa fa-minus"></i>
+								</button>
+								<button type="button" class="btn btn-box-tool"
+									data-widget="remove">
+									<i class="fa fa-times"></i>
+								</button>
+							</div>
+						</div>
+						<div class="box-body">
+							<div class="chart">
+								<canvas id="barChart" style="height: 200px"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<footer class="main-footer">
+			<div class="pull-right hidden-xs">
+				<b>Version</b> 2.4.0
+			</div>
+			<strong>Copyright &copy; 1911-2017 <a
+				href="#">中华民国</a>.
+			</strong> All rights reserved.
+		</footer>
+	</div>
+	<script type="text/javascript">
+		
+		(function($) {
+			$.expr[":"].Contains = function(a, i, m) {
+				return (a.textContent || a.innerText || "").toUpperCase()
+						.indexOf(m[3].toUpperCase()) >= 0;
+			};
+			function filterList(header, list) {
+				//@header 头部元素
+				//@list 无需列表
+				//创建一个搜素表单
+				var form = $("<form>").attr({
+					"class" : "filterform",
+					action : "#"
+				}), input = $("<input>").attr({
+					"class" : "filterinput",
+					type : "text"
+				});
+				$(form).append(input).appendTo(header);
+				$(input).change(
+						function() {
+							var filter = $(this).val();
+							if (filter) {
+								$matches = $(list).find(
+										"a:Contains(" + filter + ")").parent();
+								$("li", list).not($matches).slideUp();
+								$matches.slideDown();
+							} else {
+								$(list).find("li").slideDown();
+							}
+							return false;
+						}).keyup(function() {
+					$(this).change();
+				});
+			}
+			$(function() {
+				filterList($("#form"), $("#demo-list"));
+			});
+		})(jQuery);
+	</script>
+	<script type="text/javascript" src="admin/dist/js/Chart.js"></script>
+	
+</body>
+<script type="text/javascript" src="js/main.js"></script>
+</html>

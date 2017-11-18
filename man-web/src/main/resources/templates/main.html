@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"     xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta charset="utf-8"></meta>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
+<title>零下一度 - 西门飘雪</title>
+<base th:href="@{/}"/>
+
+<link href="css/jquery-accordion-menu.css" rel="stylesheet"
+	type="text/css" />
+<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="3rd/bootstrap-3.3.7/dist/css/bootstrap.css">
+<link rel="stylesheet" href="3rd/bootstrap-table/bootstrap-table.css">
+<link rel="stylesheet" href="3rd/bootstrapvalidator/css/bootstrapvalidator.css">
+<link rel="stylesheet" href="css/main.css" type="text/css" >
+<link rel="stylesheet" href="3rd/admin/dist/css/AdminLTE.css">
+<link rel="stylesheet" href="3rd/admin/dist/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="3rd/sweetalert/sweetalert.css">
+
+<script src="js/jquery-1.11.2.js" type="text/javascript"></script>
+<script src="js/jquery-accordion-menu.js" type="text/javascript"></script>
+<script type="text/javascript"  src="3rd/bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+<script type="text/javascript"  src="3rd/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript"  src="3rd/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript"  src="3rd/bootstrapvalidator/js/bootstrapvalidator.js"></script>
+<script type="text/javascript"  src="3rd/bootstrapvalidator/js/language/zh_CN.js"></script>
+<script type="text/javascript"  src="3rd/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript"  src="js/jquery.form.js" ></script> 
+<script type="text/javascript"  src="js/jquery.formHelp.js" ></script>
+<script type="text/javascript" src="js/three.min.js" ></script>
+<script type="text/javascript" src="js/STLLoader.js"></script>
+<script type="text/javascript" th:inline="javascript">
+	var basePath =  /*[[${#httpServletRequest.getContextPath()}]]*/ 
+</script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<!-- 顶部菜单（来自bootstrap官方Demon）==================================== -->
+		<header class="main-header">
+			<!-- Logo -->
+			<a href="main.html" class="logo"> <span class="logo-lg"><b>XX系统</b></span>
+			</a>
+			<!-- Header Navbar: style can be found in header.less -->
+			<nav class="navbar navbar-static-top">
+				<!-- Sidebar toggle button-->
+				<a href="#" class="sidebar-toggle" data-toggle="push-menu"
+					role="button"> <span class="sr-only">Toggle navigation</span>
+				</a>
+
+<!-- <p>Hello, <shiro:principal/>, how are you today?</p>
+<a shiro:hasRole="administrator" href="admin.html">Administer the system</a> -->
+				<span class="quote-content">当你的才华还撑不起你的野心的时候，你就应该静下心来学习；当你的能力还驾驭不了你的目标时，就应该沉下心来，历练！</span>
+				<!-- <marquee style="color: #f39c12;font-family: cursive;line-height: 50px;font-size: 17px;font-weight: 800;margin-left:20%" direction="left" align="bottom" height="50px" width="300px" onmouseout="this.start()" onmouseover="this.stop()" scrollamount="2" scrolldelay="1">当你的才华还撑不起你的野心的时候，你就应该静下心来学习 当你的能力还驾驭不了你的目标时，就应该沉下心来，历练</marquee> --> 
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						<!-- Messages: style can be found in dropdown.less-->
+						<li class="dropdown messages-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"> <i
+								class="fa fa-envelope-o"></i> <span class="label label-success">4</span>
+						</a></li>
+
+						<!-- User Account: style can be found in dropdown.less -->
+						<li class="dropdown user user-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"> <img
+								src="3rd/admin/dist/img/user2-160x160.jpg" class="user-image"
+								alt="User Image"> <span class="hidden-xs">武松</span>
+						</a>
+							<ul class="dropdown-menu">
+								<!-- User image -->
+								<li class="user-header"><img
+									src="3rd/admin/dist/img/user2-160x160.jpg" class="img-circle"
+									alt="User Image">
+
+									<p>
+										武松 - 打虎英雄 <small>公元前...</small>
+									</p></li>
+								<!-- Menu Body -->
+								<li class="user-body">
+									<div class="row">
+										<div class="col-xs-4 text-center">
+											<a href="#">跟随者</a>
+										</div>
+										<div class="col-xs-4 text-center">
+											<a href="#">销售</a>
+										</div>
+										<div class="col-xs-4 text-center">
+											<a href="#">朋友</a>
+										</div>
+									</div> <!-- /.row -->
+								</li>
+								<!-- Menu Footer-->
+								<li class="user-footer">
+									<div class="pull-left">
+										<a href="#" class="btn btn-default btn-flat">简介</a>
+									</div>
+									<div class="pull-right">
+										<a th:href="@{/logout}" class="btn btn-default btn-flat" id="logout">退出</a>
+									</div>
+								</li>
+							</ul></li>
+
+					</ul>
+				</div>
+			</nav>
+		</header>
+
+		<aside class="main-sidebar">
+			<!-- sidebar: style can be found in sidebar.less -->
+			<section class="sidebar">
+				<div>
+					<div id="jquery-accordion-menu" class="jquery-accordion-menu red">
+						<div class="jquery-accordion-menu-header" id="form"></div>
+						<ul id="demo-list">
+							<li class="active"><a href="#"><i class="fa fa-home"></i>Home
+							</a></li>
+							<li><a href="#" onclick="showRight('/demo')"><i class="fa fa-glass" ></i>Events </a></li>
+							<li><a href="#"><i class="fa fa-file-image-o"></i>Gallery
+							</a><span class="jquery-accordion-menu-label"> 12 </span></li>
+							<li><a href="#"><i class="fa fa-cog"></i>Services </a>
+								<ul class="submenu">
+									<li><a href="#">Web Design </a></li>
+									<li><a href="#">Hosting </a></li>
+									<li><a href="#">Design </a>
+										<ul class="submenu">
+											<li><a href="#">Graphics </a></li>
+											<li><a href="#">Vectors </a></li>
+											<li><a href="#">Photoshop </a></li>
+											<li><a href="#">Fonts </a></li>
+										</ul></li>
+									<li><a href="#">Consulting </a></li>
+								</ul></li>
+							<li><a href="#" onclick="showRight('/sys/show')"><i class="fa fa-home"></i>系统管理 </a></li>
+							<li><a href="#"><i class="fa fa-suitcase"></i>Portfolio
+							</a>
+								<ul class="submenu">
+									<li><a href="#">Web Design </a></li>
+									<li><a href="#">Graphics </a><span
+										class="jquery-accordion-menu-label">10 </span></li>
+									<li><a href="#">Photoshop </a></li>
+									<li><a href="#">Programming </a></li>
+								</ul></li>
+							<li><a href="#"><i class="fa fa-user"></i>About </a></li>
+							<li><a href="#"><i class="fa fa-envelope"></i>Contact </a></li>
+
+						</ul>
+						<div class="jquery-accordion-menu-footer">Footer</div>
+					</div>
+
+				</div>
+        		
+			</section>
+		</aside>
+
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Dashboard <small>主面板</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+					<li class="active">Dashboard</li>
+				</ol>
+			</section>
+
+			<!-- Main content -->
+			<section class="content" id="mainContent">
+				
+			</section>
+		</div>
+		<footer class="main-footer">
+			<div class="pull-right hidden-xs">
+				<b>Version</b> 2.4.0
+			</div>
+			<strong>Copyright &copy; 1911-2017 <a
+				href="#">中华民国</a>.
+			</strong> All rights reserved.
+		</footer>
+	</div>
+
+	<script type="text/javascript" src="3rd/admin/dist/js/Chart.js"></script>
+	
+</body>
+<script type="text/javascript" src="js/main.js"></script>
+</html>
