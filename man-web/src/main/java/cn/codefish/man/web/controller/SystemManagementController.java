@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.codefish.man.web.dto.PermissionDTO;
 import cn.codefish.man.web.dto.RoleDTO;
 import cn.codefish.man.web.dto.UserDTO;
 import cn.codefish.man.web.service.ISystemService;
@@ -82,9 +83,62 @@ public class SystemManagementController {
 	}
 
 	@ResponseBody
+	@RequestMapping("/role/add")
+	public HashMap<String, Object> addRole(RoleDTO role) {
+		role.setId(StringUtils.getUUID());
+		boolean result = this.systemService.saveRole(role);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
+		return map;
+	}
+
+	@ResponseBody
+	@RequestMapping("/role/edit")
+	public HashMap<String, Object> editRole(RoleDTO role) {
+		boolean result = this.systemService.modifyRole(role);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
+		return map;
+	}
+
+	@ResponseBody
+	@RequestMapping("/role/del")
+	public HashMap<String, Object> deleteRole(String id) {
+		boolean result = this.systemService.deleteRole(id);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
+		return map;
+	}
+
+	@ResponseBody
 	@RequestMapping("/role/query")
 	public List<RoleDTO> queryRoleList() {
 		List<RoleDTO> list = this.systemService.queryRoleDTOList();
+		return list;
+	}
+
+	@ResponseBody
+	@RequestMapping("/role/roleCodeValid")
+	public HashMap<String, Object> roleCodeValid(String roleCode) {
+		boolean result = this.systemService.existRoleCode(roleCode);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("valid", !result);
+		return map;
+	}
+
+	@ResponseBody
+	@RequestMapping("/role/roleNameValid")
+	public HashMap<String, Object> roleNameValid(String roleName) {
+		boolean result = this.systemService.existRoleName(roleName);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("valid", !result);
+		return map;
+	}
+
+	@ResponseBody
+	@RequestMapping("/perm/query")
+	public List<PermissionDTO> queryPermList() {
+		List<PermissionDTO> list = this.systemService.queryPermissionDTOList();
 		return list;
 	}
 }
