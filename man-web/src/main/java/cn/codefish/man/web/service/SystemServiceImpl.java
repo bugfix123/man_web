@@ -1,6 +1,9 @@
 package cn.codefish.man.web.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +12,10 @@ import cn.codefish.man.web.dao.ISystemDao;
 import cn.codefish.man.web.dto.MenuDTO;
 import cn.codefish.man.web.dto.PermissionDTO;
 import cn.codefish.man.web.dto.RoleDTO;
+import cn.codefish.man.web.dto.RolePermRelationDTO;
+import cn.codefish.man.web.dto.TreeDTO;
 import cn.codefish.man.web.dto.UserDTO;
+import cn.codefish.man.web.dto.UserRoleRelationDTO;
 import cn.codefish.man.web.util.StringUtils;
 
 @Service
@@ -129,6 +135,73 @@ public class SystemServiceImpl implements ISystemService {
 			return false;
 		}
 		int count = this.systemDao.deleteRole(id);
+		return count > 0;
+	}
+
+	@Override
+	public List<TreeDTO> queryPermTreeDTOList() {
+		List<TreeDTO> trees = new ArrayList<TreeDTO>();
+		List<PermissionDTO> pers = this.systemDao.queryPermissionDTOList();
+		for (PermissionDTO dto : pers) {
+			TreeDTO treeDTO = new TreeDTO();
+			treeDTO.setId(dto.getId());
+			treeDTO.setText(dto.getName());
+			treeDTO.setChkDisabled(false);
+			treeDTO.setCode(dto.getCode());
+			treeDTO.setNocheck(false);
+			if (StringUtils.isEmpty(dto.getPid())) {
+				treeDTO.setOpen(true);
+			} else {
+				treeDTO.setOpen(false);
+			}
+
+			treeDTO.setHasLeaf(true);
+			treeDTO.setParentId(dto.getPid());
+			trees.add(treeDTO);
+		}
+		return trees;
+	}
+
+	@Override
+	public boolean saveRoleAndPermsRelation(String roleId, String permIds) {
+		List<RolePermRelationDTO> dtos = new ArrayList<RolePermRelationDTO>();
+		String[] permIdArr = StringUtils.split(permIds, ",");
+		for (String permId : permIdArr) {
+			RolePermRelationDTO dto = new RolePermRelationDTO();
+			dto.setPermId(permId);
+			dto.setRoleId(roleId);
+			dtos.add(dto);
+		}
+		//
+		int delCount = this.systemDao.deletePermRelationsByRoleId(roleId);
+		int count = this.systemDao.batchInsertPermRelationDTOList(dtos);
+		return count > 0;
+	}
+
+	@Override
+	public Map<String, List<RoleDTO>> queryCurrentUserROles(String userId) {
+		List<RoleDTO> all = this.systemDao.queryRoleDTOList();
+		List<RoleDTO> assigned = this.systemDao.queryRoleDTOListByUserId(userId);
+		all.removeAll(assigned);
+		Map<String, List<RoleDTO>> map = new HashMap<String, List<RoleDTO>>();
+		map.put("assigned", assigned);
+		map.put("unassigned", all);
+		return map;
+	}
+
+	@Override
+	public boolean saveUserRoleRelations(String userId, String roleIds) {
+		List<UserRoleRelationDTO> dtos = new ArrayList<UserRoleRelationDTO>();
+		String[] roleIdArr = StringUtils.split(roleIds, ",");
+		for (String roleId : roleIdArr) {
+			UserRoleRelationDTO dto = new UserRoleRelationDTO();
+			dto.setUserId(userId);
+			dto.setRoleId(roleId);
+			dtos.add(dto);
+		}
+		//
+		int delCount = this.systemDao.deleteUserRoleRelationsByUserId(userId);
+		int count = this.systemDao.batchInsertUserRoleRelationDTOList(dtos);
 		return count > 0;
 	}
 

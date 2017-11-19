@@ -2,14 +2,17 @@ package cn.codefish.man.web.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.codefish.man.web.dto.PermissionDTO;
 import cn.codefish.man.web.dto.RoleDTO;
+import cn.codefish.man.web.dto.TreeDTO;
 import cn.codefish.man.web.dto.UserDTO;
 import cn.codefish.man.web.service.ISystemService;
 import cn.codefish.man.web.util.MD5Utils;
@@ -136,9 +139,44 @@ public class SystemManagementController {
 	}
 
 	@ResponseBody
+	@RequestMapping(value = "/role/saveRoleAndPermsRelation", method = RequestMethod.POST)
+	public String saveRoleAndPermsRelation(String roleId, String permIds) {
+		if (StringUtils.isEmpty(roleId) || StringUtils.isEmpty(permIds)) {
+			return "fail";
+		}
+		boolean result = this.systemService.saveRoleAndPermsRelation(roleId, permIds);
+		return result ? "success" : "fail";
+	}
+
+	@ResponseBody
 	@RequestMapping("/perm/query")
 	public List<PermissionDTO> queryPermList() {
 		List<PermissionDTO> list = this.systemService.queryPermissionDTOList();
 		return list;
+	}
+
+	@ResponseBody
+	@RequestMapping("/perm/queryPermTree")
+	public List<TreeDTO> queryPermTreeList() {
+		List<TreeDTO> list = this.systemService.queryPermTreeDTOList();
+		return list;
+	}
+
+	@ResponseBody
+	@RequestMapping("/user/queryCurrentUserROles")
+	public Map<String, List<RoleDTO>> queryCurrentUserROles(String userId) {
+		Map<String, List<RoleDTO>> list = this.systemService.queryCurrentUserROles(userId);
+		return list;
+	}
+	//
+
+	@ResponseBody
+	@RequestMapping(value = "/role/saveUserRoleRelations", method = RequestMethod.POST)
+	public String saveUserRoleRelations(String userId, String roleIds) {
+		if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(roleIds)) {
+			return "fail";
+		}
+		boolean result = this.systemService.saveUserRoleRelations(userId, roleIds);
+		return result ? "success" : "fail";
 	}
 }

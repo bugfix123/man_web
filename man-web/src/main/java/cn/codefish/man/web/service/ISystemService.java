@@ -1,10 +1,12 @@
 package cn.codefish.man.web.service;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.codefish.man.web.dto.MenuDTO;
 import cn.codefish.man.web.dto.PermissionDTO;
 import cn.codefish.man.web.dto.RoleDTO;
+import cn.codefish.man.web.dto.TreeDTO;
 import cn.codefish.man.web.dto.UserDTO;
 
 public interface ISystemService {
@@ -122,4 +124,37 @@ public interface ISystemService {
 	 * @return
 	 */
 	boolean deleteRole(String id);
+
+	/**
+	 * 查询权限树
+	 * 
+	 * @return
+	 */
+	List<TreeDTO> queryPermTreeDTOList();
+
+	/**
+	 * 保存角色权限关系
+	 * 
+	 * @param roleId
+	 * @param permIds
+	 * @return
+	 */
+	boolean saveRoleAndPermsRelation(String roleId, String permIds);
+
+	/**
+	 * 查询用户已分配的角色和未分配的角色
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	Map<String, List<RoleDTO>> queryCurrentUserROles(String userId);
+
+	/**
+	 * 保存用户角色关系
+	 * 
+	 * @param userId
+	 * @param roleIds
+	 * @return
+	 */
+	boolean saveUserRoleRelations(String userId, String roleIds);
 }

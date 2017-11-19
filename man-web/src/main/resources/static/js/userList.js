@@ -50,7 +50,7 @@ var queryTable = (function() {
 				}, {
 					field : 'operate',
 					title : '操作',
-					width : '110px',
+					width : '160px',
 					events : window.operateEvents,
 					formatter : queryTable.operateFormatter
 				} ]
@@ -73,6 +73,11 @@ var queryTable = (function() {
 						queryTable.modifyUser();
 					});
 				},
+				'click .setting' : function(e, value, row, index) {
+					$("#bindRoleModal").modal("show");
+					$('#undo_redo').multiselect();
+					queryTable.initMultiSelectData(row.id);
+				},
 				'click .remove' : function(e, value, row, index) {
 //					$table.bootstrapTable('remove', {
 //						field : 'id',
@@ -89,10 +94,13 @@ var queryTable = (function() {
 		},
 		operateFormatter : function(value, row, index) {
 			return [
-					'<a class="edit btn btn-success" href="javascript:void(0)" title="Like">',
+					'<a class="edit btn btn-success btn-circle" href="javascript:void(0)" title="Like">',
 					'<span class="glyphicon glyphicon-pencil"></span>',
 					'</a>  ',
-					'<a class="remove btn btn-danger" href="javascript:void(0)" title="Remove">',
+					'<a class="setting btn btn-info btn-circle " href="javascript:void(0)" title="分配权限">',
+					'<i class="fa fa-link"></i>',
+					'</a>  ',
+					'<a class="remove btn btn-danger btn-circle" href="javascript:void(0)" title="Remove">',
 					'<span class="glyphicon glyphicon-remove"></span>', '</a>' ]
 					.join('');
 		},
@@ -104,6 +112,62 @@ var queryTable = (function() {
 				statu : $("#txt_search_statu").val()
 			};
 			return temp;
+		},
+		initMultiSelectData: function(userId){
+			$.post("sys/user/queryCurrentUserROles", {userId: userId}, function(data){
+				var assigned = data.assigned;
+				var unassigned = data.unassigned;
+				//初始化multiselect option
+				$("#undo_redo").empty();
+				$("#undo_redo_to").empty();
+				$.each(assigned, function(i, v){
+					$("#undo_redo_to").append("<option value='"+ v.id +"'>"+ v.roleName +"</option>");
+				});
+				$.each(unassigned, function(i, v){
+					$("#undo_redo").append("<option value='"+ v.id +"'>"+ v.roleName +"</option>");
+				});
+			}, "json");	
+			$("#bindRoleModal").data("userId", userId);
+		},
+		saveUserRoleRelations: function(){
+			var selected = [];
+			$("#undo_redo_to option").each(function () {
+				selected.push($(this).val());
+			});
+			if (0 == selected.length) {
+				$("#selectRolesErrorTip").text("请选择角色！");
+			}else {
+				$("#selectRolesErrorTip").hide();
+				$("#bindRoleModal").modal("hide");
+				var arr = new Array();
+				for(var i in selected){
+					arr.push(selected[i]);
+				}
+				$.post("sys/role/saveUserRoleRelations", {userId: $("#bindRoleModal").data("userId"), roleIds: selected.join()}, function(data){
+					if(data == "success"){
+						swal({
+							title : "分配成功",
+							text : "",
+							type : "success",
+							showCancelButton : false,
+							closeOnConfirm : false,
+							confirmButtonText : "OK",
+							confirmButtonColor : "#ec6c62"
+						});
+					}else{
+						swal({
+							title : "分配失败",
+							text : "",
+							type : "error",
+							showCancelButton : false,
+							closeOnConfirm : false,
+							confirmButtonText : "OK",
+							confirmButtonColor : "#ec6c62"
+						});
+					}
+				});
+				$("#bindRoleModal").removeData();//清除缓存数据
+			}
 		},
 		bindEvent : function() {
 			$("#btn_add").bind("click", function() {
@@ -117,6 +181,12 @@ var queryTable = (function() {
 			});
 			$("#userInfoModal").on('hide.bs.modal', function(e) {
 				$("#userInfoModal .submit").unbind("click");
+			});
+			$("#bindRoleModal").on('hide.bs.modal', function(e) {
+				$("#bindRoleModal [type='submit']").unbind("click");
+			});
+			$("#bindRoleModal").on('shown.bs.modal', function(e) {
+				$("#bindRoleModal [type='submit']").bind("click", queryTable.saveUserRoleRelations);
 			});
 
 		},

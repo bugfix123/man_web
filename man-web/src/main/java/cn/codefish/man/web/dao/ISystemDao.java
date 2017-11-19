@@ -5,7 +5,9 @@ import java.util.List;
 import cn.codefish.man.web.dto.MenuDTO;
 import cn.codefish.man.web.dto.PermissionDTO;
 import cn.codefish.man.web.dto.RoleDTO;
+import cn.codefish.man.web.dto.RolePermRelationDTO;
 import cn.codefish.man.web.dto.UserDTO;
+import cn.codefish.man.web.dto.UserRoleRelationDTO;
 
 public interface ISystemDao {
 	/**
@@ -125,4 +127,36 @@ public interface ISystemDao {
 	 */
 	int deleteRole(String id);
 
+	/**
+	 * 批量插入角色权限关系记录
+	 * 
+	 * @param dtos
+	 * @return
+	 */
+	int batchInsertPermRelationDTOList(List<RolePermRelationDTO> dtos);
+
+	/**
+	 * 根据角色ID删除对应的权限
+	 * 
+	 * @param roleId
+	 *            角色ID
+	 * @return
+	 */
+	int deletePermRelationsByRoleId(String roleId);
+
+	/**
+	 * 删除用户的角色
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	int deleteUserRoleRelationsByUserId(String userId);
+
+	/**
+	 * 批量插入用户角色关系记录
+	 * 
+	 * @param dtos
+	 * @return
+	 */
+	int batchInsertUserRoleRelationDTOList(List<UserRoleRelationDTO> dtos);
 }

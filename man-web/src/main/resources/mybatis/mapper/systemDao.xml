@@ -95,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			permission.url,
 			permission.css
 		FROM
-		permission
+		permission order by code asc
 	</select>
     <insert id="insertUserDTO" parameterType="userDTO">
 			INSERT INTO `user` (`id`, `userName`, `password`, `realName`, `age`, `sex`, `address`, `job`, `description`) 
@@ -143,5 +143,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	<delete id="deleteRole" parameterType="String">
 		delete from role where id=#{param1}
+	</delete>
+	<insert id="batchInsertPermRelationDTOList" parameterType="list">
+		INSERT INTO role_r_per (`role_id`, `per_id`) VALUES 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.roleId},#{item.permId})
+		</foreach>
+	</insert>
+	<delete id="deletePermRelationsByRoleId" parameterType="String">
+		delete from role_r_per where role_id=#{param1}
+	</delete>
+	<insert id="batchInsertUserRoleRelationDTOList" parameterType="list">
+		INSERT INTO user_r_role (`user_id`, `role_id`) VALUES 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.userId},#{item.roleId})
+		</foreach>
+	</insert>
+	<delete id="deleteUserRoleRelationsByUserId" parameterType="String">
+		delete from user_r_role where user_id=#{param1}
 	</delete>
 </mapper>

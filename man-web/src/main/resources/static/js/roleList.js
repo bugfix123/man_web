@@ -55,22 +55,23 @@ var queryTable = (function() {
 					$("#roleInfoForm").setForm(row)
 					queryTable.initFormValidation();
 					$("#roleCode").attr("readonly", "readonly");
-					$("#roleInfoForm").data('bootstrapValidator').enableFieldValidators('roleCode', false, "remote");
-					$("#roleInfoForm").data('bootstrapValidator').enableFieldValidators('roleName', false, "remote");
+					$("#roleInfoForm").data('bootstrapValidator')
+							.enableFieldValidators('roleCode', false, "remote");
+					$("#roleInfoForm").data('bootstrapValidator')
+							.enableFieldValidators('roleName', false, "remote");
 					$("#roleInfoModal .submit").bind("click", function() {
 						queryTable.modifyRole();
 					});
 				},
 				'click .setting' : function(e, value, row, index) {
 					$("#bindPermModal").modal("show");
-					queryTable.initPermTree();
-					
+					queryTable.popupPermTreeModal(row.id);
 				},
 				'click .remove' : function(e, value, row, index) {
-//					$table.bootstrapTable('remove', {
-//						field : 'id',
-//						values : [ row.id ]
-//					});
+					// $table.bootstrapTable('remove', {
+					// field : 'id',
+					// values : [ row.id ]
+					// });
 					queryTable.deleteRole(row.id);
 				}
 			};
@@ -101,75 +102,108 @@ var queryTable = (function() {
 			};
 			return temp;
 		},
-		initPermTree: function(){
+		popupPermTreeModal: function(roleId){
+			queryTable.initPermTree(roleId);
+		},
+		initPermTree : function(roleId) {
 			var setting = {
-				    view: {
-				        addHoverDom: queryTable.addHoverDom,
-				        removeHoverDom: queryTable.removeHoverDom,
-				        selectedMulti: false,
-				        showIcon:true,
-						showLine:false,
-				    },
-				    check: {
-				        enable: true
-				    },
-				    data: {
-				        simpleData: {
-				            enable: true
-				        }
-				    },
-				    edit: {
-				        enable: false
-				    }
-				};
-			var zNodes = [
-			              { id: 1, pId: 0, name: "父节点1", open: false },
-			              { id: 11, pId: 1, name: "父节点11" },
-			              { id: 111, pId: 11, name: "叶子节点111" },
-			              { id: 112, pId: 11, name: "叶子节点112" },
-			              { id: 113, pId: 11, name: "叶子节点113" },
-			              { id: 114, pId: 11, name: "叶子节点114" },
-			              { id: 12, pId: 1, name: "父节点12" },
-			              { id: 121, pId: 12, name: "叶子节点121" },
-			              { id: 122, pId: 12, name: "叶子节点122" },
-			              { id: 123, pId: 12, name: "叶子节点123" },
-			              { id: 124, pId: 12, name: "叶子节点124" },
-			              { id: 13, pId: 1, name: "父节点13", isParent: true },
-			              { id: 2, pId: 0, name: "父节点2" },
-			              { id: 21, pId: 2, name: "父节点21", open: true },
-			              { id: 211, pId: 21, name: "叶子节点211" },
-			              { id: 212, pId: 21, name: "叶子节点212" },
-			              { id: 213, pId: 21, name: "叶子节点213" },
-			              { id: 214, pId: 21, name: "叶子节点214" },
-			              { id: 22, pId: 2, name: "父节点22" },
-			              { id: 221, pId: 22, name: "叶子节点221" },
-			              { id: 222, pId: 22, name: "叶子节点222" },
-			              { id: 223, pId: 22, name: "叶子节点223" },
-			              { id: 224, pId: 22, name: "叶子节点224" },
-			              { id: 23, pId: 2, name: "父节点23" },
-			              { id: 231, pId: 23, name: "叶子节点231" },
-			              { id: 232, pId: 23, name: "叶子节点232" },
-			              { id: 233, pId: 23, name: "叶子节点233" },
-			              { id: 234, pId: 23, name: "叶子节点234" },
-			              { id: 3, pId: 0, name: "父节点3", isParent: false }
-			          ];
-			 $.fn.zTree.init($("#permTree"), setting, zNodes);
+				async : {
+					enable : true,
+					url : 'sys/perm/queryPermTree',
+					autoParam : [ "id", "text", "open" ]
+				},
+				view : {
+					addHoverDom : queryTable.addHoverDom,
+					removeHoverDom : queryTable.removeHoverDom,
+					showLine : false,
+					showIcon : true,
+					selectedMulti : true,
+					dblClickExpand : false,
+				},
+				check : {
+					enable : true
+				},
+				data : {
+					key : {
+						name : "text"
+					},
+					simpleData : {
+						enable : true,
+						idKey : "id",
+						pIdKey : "parentId",
+						rootPId : ""
+					}
+				},
+				edit : {
+					enable : false
+				},
+				callback : {
+					onAsyncSuccess : function(event, treeId, treeNode, msg) { 
+						var treeObj = $.fn.zTree.getZTreeObj("permTree");
+						$.data(treeObj, "roleId", roleId);
+					}
+				}
+			};
+			$.fn.zTree.init($("#permTree"), setting);
 		},
-		addHoverDom: function(treeId, treeNode) {
-//		    var sObj = $("#" + treeNode.tId + "_span");
-//		    if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
-//		    var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
-//		        + "' title='add node' onfocus='this.blur();'></span>";
-//		    sObj.after(addStr);
-//		    var btn = $("#addBtn_" + treeNode.tId);
-//		    if (btn) btn.bind("click", function () {
-//		        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-//		        zTree.addNodes(treeNode, { id: (100 + newCount), pId: treeNode.id, name: "new node" + (newCount++) });
-//		        return false;
-//		    });
+		addHoverDom : function(treeId, treeNode) {
+			// var sObj = $("#" + treeNode.tId + "_span");
+			// if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length
+			// > 0) return;
+			// var addStr = "<span class='button add' id='addBtn_" +
+			// treeNode.tId
+			// + "' title='add node' onfocus='this.blur();'></span>";
+			// sObj.after(addStr);
+			// var btn = $("#addBtn_" + treeNode.tId);
+			// if (btn) btn.bind("click", function () {
+			// var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			// zTree.addNodes(treeNode, { id: (100 + newCount), pId:
+			// treeNode.id, name: "new node" + (newCount++) });
+			// return false;
+			// });
 		},
-		removeHoverDom: function (treeId, treeNode) {
-		  //  $("#addBtn_" + treeNode.tId).unbind().remove();
+		removeHoverDom : function(treeId, treeNode) {
+			// $("#addBtn_" + treeNode.tId).unbind().remove();
+		},
+		saveRoleAndPermsRelation : function() {
+			var obj = $.fn.zTree.getZTreeObj("permTree");
+			var nodes = obj.getCheckedNodes();
+			if (0 == nodes.length) {
+				$("#selectPermsErrorTip").text("请选择权限点！");
+			} else if (1 == nodes.length && null == nodes[0].getParentNode()) {
+				$("#selectPermsErrorTip").text("请选择您的下级节点！");
+			} else {
+				$("#selectPermsErrorTip").hide();
+				$("#bindPermModal").modal("hide");
+				var arr = new Array();
+				for(var i in nodes){
+					arr.push(nodes[i].id);
+				}
+				$.post("sys/role/saveRoleAndPermsRelation", {roleId: $.data(obj, "roleId"), permIds: arr.join()}, function(data){
+					if(data == "success"){
+						swal({
+							title : "分配成功",
+							text : "",
+							type : "success",
+							showCancelButton : false,
+							closeOnConfirm : false,
+							confirmButtonText : "OK",
+							confirmButtonColor : "#ec6c62"
+						});
+					}else{
+						swal({
+							title : "分配失败",
+							text : "",
+							type : "error",
+							showCancelButton : false,
+							closeOnConfirm : false,
+							confirmButtonText : "OK",
+							confirmButtonColor : "#ec6c62"
+						});
+					}
+				});
+				$.removeData(obj, "roleId");//清除缓存数据
+			}
 		},
 		bindEvent : function() {
 			$("#btn_add").bind("click", function() {
@@ -182,6 +216,12 @@ var queryTable = (function() {
 			});
 			$("#roleInfoModal").on('hide.bs.modal', function(e) {
 				$("#roleInfoModal .submit").unbind("click");
+			});
+			$("#bindPermModal").on('hide.bs.modal', function(e) {
+				$("#bindPermModal .submit").unbind("click");
+			});
+			$("#bindPermModal").on('shown.bs.modal', function(e) {
+				$("#bindPermModal [type='submit']").bind("click", queryTable.saveRoleAndPermsRelation);
 			});
 
 		},
@@ -234,88 +274,88 @@ var queryTable = (function() {
 											}
 										}
 									},
-									
+
 								}
 							});
 		},
 		addRole : function() {
-			$("#roleInfoForm").ajaxSubmit(
-					{
-						beforeSubmit : queryTable.validateForm,
-						success : function(data) {
-							console.log(data);
-							$('#roleInfoModal').modal('hide');
-							swal({
-								title : "新增成功",
-								text : "",
-								type : "success",
-								showCancelButton : false,
-								closeOnConfirm : false,
-								confirmButtonText : "OK",
-								confirmButtonColor : "#ec6c62"
-							});
-							$("#roleList").bootstrapTable("refresh");
-						},
-						url : "sys/role/add",
-						type : "post",
-						dataType : "json",
-						clearForm : true,
-						resetForm : true,
-						timeout : 3000
+			$("#roleInfoForm").ajaxSubmit({
+				beforeSubmit : queryTable.validateForm,
+				success : function(data) {
+					console.log(data);
+					$('#roleInfoModal').modal('hide');
+					swal({
+						title : "新增成功",
+						text : "",
+						type : "success",
+						showCancelButton : false,
+						closeOnConfirm : false,
+						confirmButtonText : "OK",
+						confirmButtonColor : "#ec6c62"
 					});
+					$("#roleList").bootstrapTable("refresh");
+				},
+				url : "sys/role/add",
+				type : "post",
+				dataType : "json",
+				clearForm : true,
+				resetForm : true,
+				timeout : 3000
+			});
 		},
-		modifyRole: function(){
-			$("#roleInfoForm").ajaxSubmit(
-					{
-						beforeSubmit : queryTable.validateForm,
-						success : function(data) {
-							console.log(data);
-							$('#roleInfoModal').modal('hide');
-							swal({
-								title : "修改成功",
-								text : "",
-								type : "success",
-								showCancelButton : false,
-								closeOnConfirm : false,
-								confirmButtonText : "OK",
-								confirmButtonColor : "#ec6c62"
-							});
-							$("#roleList").bootstrapTable("refresh");
-						},
-						url : "sys/role/edit",
-						type : "post",
-						dataType : "json",
-						clearForm : true,
-						resetForm : true,
-						timeout : 3000
+		modifyRole : function() {
+			$("#roleInfoForm").ajaxSubmit({
+				beforeSubmit : queryTable.validateForm,
+				success : function(data) {
+					console.log(data);
+					$('#roleInfoModal').modal('hide');
+					swal({
+						title : "修改成功",
+						text : "",
+						type : "success",
+						showCancelButton : false,
+						closeOnConfirm : false,
+						confirmButtonText : "OK",
+						confirmButtonColor : "#ec6c62"
 					});
+					$("#roleList").bootstrapTable("refresh");
+				},
+				url : "sys/role/edit",
+				type : "post",
+				dataType : "json",
+				clearForm : true,
+				resetForm : true,
+				timeout : 3000
+			});
 		},
-		validateForm: function(){
+		validateForm : function() {
 			var bootstrapValidator = $("#roleInfoForm").data(
-			'bootstrapValidator');
+					'bootstrapValidator');
 			bootstrapValidator.validate();
 			return bootstrapValidator.isValid()
 		},
-		deleteRole: function(id){
-			swal({ 
-			    title: "您确定要删除吗？", 
-			    type: "warning", 
-			    showCancelButton: true, 
-			    closeOnConfirm: false, 
-			    confirmButtonText: "YES", 
-			    confirmButtonColor: "#ec6c62" 
-			}, function() { 
-			    $.post("sys/role/del", {id: id}, function(data) { 
-			    	var title;
-			    	var type;
-			    	if(data.result == true){
-			    		title = "删除成功";
-			    		type="success";
-			    	}else{
-			    		title = "删除失败";
-			    		type = "error";
-			    	}
-			    	swal({
+		deleteRole : function(id) {
+			swal({
+				title : "您确定要删除吗？",
+				type : "warning",
+				showCancelButton : true,
+				closeOnConfirm : false,
+				confirmButtonText : "YES",
+				confirmButtonColor : "#ec6c62"
+			}, function() {
+				$.post("sys/role/del", {
+					id : id
+				}, function(data) {
+					var title;
+					var type;
+					if (data.result == true) {
+						title = "删除成功";
+						type = "success";
+					} else {
+						title = "删除失败";
+						type = "error";
+					}
+					swal({
 						title : title,
 						text : "",
 						type : type,
@@ -324,8 +364,8 @@ var queryTable = (function() {
 						confirmButtonText : "OK",
 						confirmButtonColor : "#ec6c62"
 					});
-			    	$("#roleList").bootstrapTable("refresh");
-			    }) 
+					$("#roleList").bootstrapTable("refresh");
+				})
 			});
 		}
 	};

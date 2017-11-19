@@ -40,4 +40,19 @@ public class RoleDTO {
 	public void setRoleCode(String roleCode) {
 		this.roleCode = roleCode;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || this.id == null || this.id == "") {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+		if (!(obj.getClass() == this.getClass())) {
+			return false;
+		}
+		RoleDTO dto = (RoleDTO) obj;
+		return this.getId().equals(dto.getId());
+	}
 }
