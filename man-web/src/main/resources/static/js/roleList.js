@@ -41,7 +41,7 @@ var queryTable = (function() {
 				}, {
 					field : 'operate',
 					title : '操作',
-					width : '110px',
+					width : '200px',
 					events : window.operateEvents,
 					formatter : queryTable.operateFormatter
 				} ]
@@ -55,11 +55,16 @@ var queryTable = (function() {
 					$("#roleInfoForm").setForm(row)
 					queryTable.initFormValidation();
 					$("#roleCode").attr("readonly", "readonly");
-					$("#roleInfoForm").data('bootstrapValidator')
-							.enableFieldValidators('roleCode', false, "remote");
+					$("#roleInfoForm").data('bootstrapValidator').enableFieldValidators('roleCode', false, "remote");
+					$("#roleInfoForm").data('bootstrapValidator').enableFieldValidators('roleName', false, "remote");
 					$("#roleInfoModal .submit").bind("click", function() {
 						queryTable.modifyRole();
 					});
+				},
+				'click .setting' : function(e, value, row, index) {
+					$("#bindPermModal").modal("show");
+					queryTable.initPermTree();
+					
 				},
 				'click .remove' : function(e, value, row, index) {
 //					$table.bootstrapTable('remove', {
@@ -77,10 +82,13 @@ var queryTable = (function() {
 		},
 		operateFormatter : function(value, row, index) {
 			return [
-					'<a class="edit btn btn-success" href="javascript:void(0)" title="Like">',
+					'<a class="edit btn btn-success btn-circle" href="javascript:void(0)" title="修改角色">',
 					'<span class="glyphicon glyphicon-pencil"></span>',
 					'</a>  ',
-					'<a class="remove btn btn-danger" href="javascript:void(0)" title="Remove">',
+					'<a class="setting btn btn-info btn-circle " href="javascript:void(0)" title="分配权限">',
+					'<i class="fa fa-link"></i>',
+					'</a>  ',
+					'<a class="remove btn btn-danger btn-circle" href="javascript:void(0)" title="删除角色">',
 					'<span class="glyphicon glyphicon-remove"></span>', '</a>' ]
 					.join('');
 		},
@@ -93,16 +101,86 @@ var queryTable = (function() {
 			};
 			return temp;
 		},
+		initPermTree: function(){
+			var setting = {
+				    view: {
+				        addHoverDom: queryTable.addHoverDom,
+				        removeHoverDom: queryTable.removeHoverDom,
+				        selectedMulti: false,
+				        showIcon:true,
+						showLine:false,
+				    },
+				    check: {
+				        enable: true
+				    },
+				    data: {
+				        simpleData: {
+				            enable: true
+				        }
+				    },
+				    edit: {
+				        enable: false
+				    }
+				};
+			var zNodes = [
+			              { id: 1, pId: 0, name: "父节点1", open: false },
+			              { id: 11, pId: 1, name: "父节点11" },
+			              { id: 111, pId: 11, name: "叶子节点111" },
+			              { id: 112, pId: 11, name: "叶子节点112" },
+			              { id: 113, pId: 11, name: "叶子节点113" },
+			              { id: 114, pId: 11, name: "叶子节点114" },
+			              { id: 12, pId: 1, name: "父节点12" },
+			              { id: 121, pId: 12, name: "叶子节点121" },
+			              { id: 122, pId: 12, name: "叶子节点122" },
+			              { id: 123, pId: 12, name: "叶子节点123" },
+			              { id: 124, pId: 12, name: "叶子节点124" },
+			              { id: 13, pId: 1, name: "父节点13", isParent: true },
+			              { id: 2, pId: 0, name: "父节点2" },
+			              { id: 21, pId: 2, name: "父节点21", open: true },
+			              { id: 211, pId: 21, name: "叶子节点211" },
+			              { id: 212, pId: 21, name: "叶子节点212" },
+			              { id: 213, pId: 21, name: "叶子节点213" },
+			              { id: 214, pId: 21, name: "叶子节点214" },
+			              { id: 22, pId: 2, name: "父节点22" },
+			              { id: 221, pId: 22, name: "叶子节点221" },
+			              { id: 222, pId: 22, name: "叶子节点222" },
+			              { id: 223, pId: 22, name: "叶子节点223" },
+			              { id: 224, pId: 22, name: "叶子节点224" },
+			              { id: 23, pId: 2, name: "父节点23" },
+			              { id: 231, pId: 23, name: "叶子节点231" },
+			              { id: 232, pId: 23, name: "叶子节点232" },
+			              { id: 233, pId: 23, name: "叶子节点233" },
+			              { id: 234, pId: 23, name: "叶子节点234" },
+			              { id: 3, pId: 0, name: "父节点3", isParent: false }
+			          ];
+			 $.fn.zTree.init($("#permTree"), setting, zNodes);
+		},
+		addHoverDom: function(treeId, treeNode) {
+//		    var sObj = $("#" + treeNode.tId + "_span");
+//		    if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
+//		    var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+//		        + "' title='add node' onfocus='this.blur();'></span>";
+//		    sObj.after(addStr);
+//		    var btn = $("#addBtn_" + treeNode.tId);
+//		    if (btn) btn.bind("click", function () {
+//		        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+//		        zTree.addNodes(treeNode, { id: (100 + newCount), pId: treeNode.id, name: "new node" + (newCount++) });
+//		        return false;
+//		    });
+		},
+		removeHoverDom: function (treeId, treeNode) {
+		  //  $("#addBtn_" + treeNode.tId).unbind().remove();
+		},
 		bindEvent : function() {
 			$("#btn_add").bind("click", function() {
 				$("#roleInfoModal").modal("show");
 				$("#roleCode").removeAttr("readonly");
 				queryTable.initFormValidation();
-				$("#userInfoModal .submit").bind("click", function() {
+				$("#roleInfoModal .submit").bind("click", function() {
 					queryTable.addRole();
 				});
 			});
-			$("#userInfoModal").on('hide.bs.modal', function(e) {
+			$("#roleInfoModal").on('hide.bs.modal', function(e) {
 				$("#roleInfoModal .submit").unbind("click");
 			});
 
@@ -124,9 +202,14 @@ var queryTable = (function() {
 												message : '角色名不能为空'
 											},
 											stringLength : {
-												min : 3,
+												min : 2,
 												max : 20,
 												message : '角色名长度在3和20之间'
+											},
+											remote : {
+												url : 'sys/role/roleNameValid',
+												delay : 1500,
+												message : '角色名称已存在'
 											}
 										}
 									},
@@ -136,7 +219,7 @@ var queryTable = (function() {
 												message : '角色编码不能为空'
 											},
 											stringLength : {
-												min : 1,
+												min : 2,
 												max : 20,
 												message : '角色编码长度在6和20之间'
 											},

@@ -96,4 +96,40 @@ public class SystemServiceImpl implements ISystemService {
 		return count > 0;
 	}
 
+	@Override
+	public boolean saveRole(RoleDTO dto) {
+		int count = this.systemDao.insertRoleDTO(dto);
+		return count > 0;
+	}
+
+	@Override
+	public boolean existRoleCode(String roleCode) {
+		int count = this.systemDao.existRoleCodeOrRoleName(roleCode, null);
+		return count > 0;
+	}
+
+	@Override
+	public boolean existRoleName(String roleName) {
+		int count = this.systemDao.existRoleCodeOrRoleName(null, roleName);
+		return count > 0;
+	}
+
+	@Override
+	public boolean modifyRole(RoleDTO role) {
+		if (role == null) {
+			return false;
+		}
+		int count = this.systemDao.updateRoleDTO(role);
+		return count > 0;
+	}
+
+	@Override
+	public boolean deleteRole(String id) {
+		if (StringUtils.isEmpty(id)) {
+			return false;
+		}
+		int count = this.systemDao.deleteRole(id);
+		return count > 0;
+	}
+
 }

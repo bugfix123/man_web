@@ -3,9 +3,9 @@
         <div class="panel panel-primary">
             <div class="panel-heading">查询条件</div>
             <div class="panel-body">
-                <form id="userListForm" class="form-horizontal">
+                <form id="permListForm" class="form-horizontal">
                     <div class="form-group" style="margin-top:15px">
-                        <label class="control-label col-sm-1" for="realName">姓名</label>
+                        <label class="control-label col-sm-1" for="realName">权限名称</label>
                         <div class="col-sm-3">
                             <input type="text" class="form-control" id="txt_search_departmentname">
                         </div>
@@ -21,7 +21,7 @@
             </div>
         </div>       
 
-        <div id="toolbarForUserList" class="btn-group">
+        <div id="toolbarForPermList" class="btn-group">
             <button id="btn_add" type="button" class="btn btn-success">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
             </button>
@@ -32,20 +32,20 @@
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
             </button> -->
         </div>
-        <table id="userList"></table>
+        <table id="permList"></table>
     </div>
 
-	<div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog"
+	<div class="modal fade" id="permInfoModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">用户信息</h4>
+					<h4 class="modal-title" id="myModalLabel">权限信息</h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" role="form"  id="userInfoForm">
+					<form class="form-horizontal" role="form"  id="permInfoForm">
 						<div class="form-group">
 							<label for="user_id" class="col-sm-3 control-label">用户名</label>
 							<div class="col-sm-7">

@@ -78,13 +78,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="queryRoleDTOList" resultType="roleDTO">
 			SELECT
 			role.id,
-			role.role_code,
+			role.role_code AS roleCode,
 			role.role_name AS roleName
 			FROM
 			role
 	</select>
    
-    <select id="queryPermissionDTOList" resultType="permissionDTO">
+    <select id="queryPermissionDTOList" resultType="permissionDTO" >
 			SELECT
 			permission.id,
 			permission.`code`,
@@ -116,5 +116,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>  
 	<delete id="deleteUserDTO" parameterType="String">
 		delete from user where id=#{param1}
+	</delete>
+    <insert id="insertRoleDTO" parameterType="roleDTO">
+			INSERT INTO role(id, role_name, role_code) 
+			VALUES (#{id}, #{roleName}, #{roleCode});
+	</insert>
+    <select id="existRoleCodeOrRoleName"  resultType="int">
+			select count(1) from role
+			<where>
+				<choose>
+				<when test="param1 != null and param1 !=''">
+					role_code = #{param1}
+				</when>
+				<when test="param2 != null and param2 !=''">
+					role_name = #{param2}
+				</when>
+			</choose>
+			</where>
+	</select>
+	<update id="updateRoleDTO" parameterType="roleDTO">
+		update role
+		<trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+			<if test="roleName!=null and roleName!=''">role_name=#{roleName},</if>
+    		<if test="roleCode!=null and roleCode!=''">role_code=#{roleCode},</if>
+		</trim> 
+	</update>
+	<delete id="deleteRole" parameterType="String">
+		delete from role where id=#{param1}
 	</delete>
 </mapper>

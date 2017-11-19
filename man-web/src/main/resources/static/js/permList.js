@@ -5,10 +5,10 @@
 var queryTable = (function() {
 	return {
 		initTable : function() {
-			$('#userList').bootstrapTable({
-				url : 'sys/user/query', // 请求后台的URL（*）
+			$('#permList').bootstrapTable({
+				url : 'sys/perm/query', // 请求后台的URL（*）
 				method : 'get', // 请求方式（*）
-				toolbar : '#toolbarForUserList', // 工具按钮用哪个容器
+				toolbar : '#toolbarForPermList', // 工具按钮用哪个容器
 				striped : true, // 是否显示行间隔色
 				cache : false, // 是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 				pagination : true, // 是否显示分页（*）
@@ -17,7 +17,7 @@ var queryTable = (function() {
 				queryParams : queryTable.queryParams,// 传递参数（*）
 				sidePagination : "client", // 分页方式：client客户端分页，server服务端分页（*）
 				pageNumber : 1, // 初始化加载第一页，默认第一页
-				pageSize : 6, // 每页的记录行数（*）
+				pageSize : 9, // 每页的记录行数（*）
 				pageList : [ 10, 25, 50, 100 ], // 可供选择的每页的行数（*）
 				search : true, // 是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
 				strictSearch : true,
@@ -26,33 +26,51 @@ var queryTable = (function() {
 				minimumCountColumns : 2, // 最少允许的列数
 				clickToSelect : true, // 是否启用点击选中行
 				height : 500, // 行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-				uniqueId : "ID", // 每一行的唯一标识，一般为主键列
+				uniqueId : "id", // 每一行的唯一标识，一般为主键列
 				showToggle : true, // 是否显示详细视图和列表视图的切换按钮
 				cardView : false, // 是否显示详细视图
 				detailView : false, // 是否显示父子表
 				columns : [ {
 					checkbox : true
+				},
+				{
+				 field: 'Number',
+                 title: '序号',
+                 formatter: function (value, row, index) {
+                     return index+1;
+                 }
+				},				
+				{
+					field : 'id',
+					title : 'ID'
 				}, {
-					field : 'userName',
-					title : '用户名'
+					field : 'code',
+					title : '权限编码'
 				}, {
-					field : 'realName',
-					title : '姓名'
+					field : 'name',
+					title : '权限名称'
 				}, {
-					field : 'age',
-					title : '年龄'
+					field : 'grade',
+					title : '级别'
 				}, {
-					field : 'address',
-					title : '地址'
+					field : 'pid',
+					title : '父ID'
+				},  {
+					field : 'type',
+					title : '权限类型'
 				}, {
-					field : 'job',
-					title : '职业'
+					field : 'url',
+					title : 'url'
 				}, {
+					field : 'css',
+					title : 'css样式'
+				},{
 					field : 'operate',
 					title : '操作',
 					width : '110px',
 					events : window.operateEvents,
-					formatter : queryTable.operateFormatter
+					formatter : queryTable.operateFormatter,
+					visible: false
 				} ]
 			});
 

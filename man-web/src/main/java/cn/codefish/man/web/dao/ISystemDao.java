@@ -33,7 +33,7 @@ public interface ISystemDao {
 	int insertUserDTO(UserDTO dto);
 
 	/**
-	 * 插入用户
+	 * 更新用户
 	 * 
 	 * @param dto
 	 * @return
@@ -89,5 +89,40 @@ public interface ISystemDao {
 	 * @return
 	 */
 	List<PermissionDTO> queryPermissionDTOList();
+
+	/**
+	 * 插入角色记录
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	int insertRoleDTO(RoleDTO dto);
+
+	/**
+	 * 判断角色名称或编码是否存在
+	 * 
+	 * @param roleCode
+	 * @param object
+	 * @return
+	 */
+
+	int existRoleCodeOrRoleName(String roleCode, String roleName);
+
+	/**
+	 * 更新角色
+	 * 
+	 * @param role
+	 * @return
+	 */
+	int updateRoleDTO(RoleDTO role);
+
+	/**
+	 * 删除角色
+	 * 
+	 * @param id
+	 *            角色ID
+	 * @return
+	 */
+	int deleteRole(String id);
 
 }

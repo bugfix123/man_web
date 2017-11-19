@@ -82,4 +82,44 @@ public interface ISystemService {
 	 * @return
 	 */
 	boolean deleteUser(String id);
+
+	/**
+	 * 保存角色
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	boolean saveRole(RoleDTO dto);
+
+	/**
+	 * 验证角色编码是否存在
+	 * 
+	 * @param roleCode
+	 * @return true:存在 false:不存在
+	 */
+	boolean existRoleCode(String roleCode);
+
+	/**
+	 * 验证角色名称是否存在
+	 * 
+	 * @param roleName
+	 * @return true:存在 false:不存在
+	 */
+	boolean existRoleName(String roleName);
+
+	/**
+	 * 修改角色信息
+	 * 
+	 * @param user
+	 * @return
+	 */
+	boolean modifyRole(RoleDTO role);
+
+	/**
+	 * 删除角色
+	 * 
+	 * @param id
+	 * @return
+	 */
+	boolean deleteRole(String id);
 }
