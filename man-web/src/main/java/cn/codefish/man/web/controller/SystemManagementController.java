@@ -179,4 +179,5 @@ public class SystemManagementController {
 		boolean result = this.systemService.saveUserRoleRelations(userId, roleIds);
 		return result ? "success" : "fail";
 	}
+
 }

@@ -159,4 +159,5 @@ public interface ISystemDao {
 	 * @return
 	 */
 	int batchInsertUserRoleRelationDTOList(List<UserRoleRelationDTO> dtos);
+
 }
